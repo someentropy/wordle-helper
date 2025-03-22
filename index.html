@@ -2,13 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wordle Helper</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Wordle Helper</h1>
-  <p>This tool helps you solve Wordle puzzles!</p>
+
+  <form id="wordle-form">
+    <label for="green">Green letters (correct spot):</label>
+    <input type="text" id="green" maxlength="5" placeholder="_ A _ _ E" />
+
+    <label for="yellow">Yellow letters (wrong spot):</label>
+    <input type="text" id="yellow" placeholder="L O" />
+
+    <label for="grey">Grey letters (not in word):</label>
+    <input type="text" id="grey" placeholder="S T M" />
+
+    <button type="submit">Suggest Words</button>
+  </form>
+
+  <h2>Suggestions:</h2>
+  <ul id="suggestions"></ul>
+
   <script src="script.js"></script>
 </body>
 </html>
