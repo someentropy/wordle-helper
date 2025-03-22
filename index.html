@@ -1,28 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wordle Helper</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: auto;
+      padding: 2em;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .section {
+      margin-bottom: 2em;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-bottom: 0.5em;
+      display: block;
+    }
+
+    .desc {
+      font-size: 0.9em;
+      color: #555;
+      margin-bottom: 0.5em;
+    }
+
+    .tile-row {
+      display: flex;
+      gap: 0.5em;
+    }
+
+    .tile {
+      width: 48px;
+      height: 48px;
+      font-size: 1.5em;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .excluded-box {
+      width: 100%;
+      padding: 0.5em;
+      font-size: 1em;
+    }
+
+    .search-button {
+      display: block;
+      width: 100%;
+      padding: 1em;
+      font-size: 1.2em;
+      background-color: #f4c430;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <h1>Wordle Helper</h1>
 
-  <form id="wordle-form">
-    <label for="green">Green letters (correct spot):</label>
-    <input type="text" id="green" maxlength="5" placeholder="_ A _ _ E" />
+  <div class="section">
+    <span class="label" style="color: green;">🟩 Correct Letters</span>
+    <span class="desc">Letters in the word and in the correct position (green tiles)</span>
+    <div class="tile-row">
+      <input class="tile" type="text" maxlength="1" id="green-0">
+      <input class="tile" type="text" maxlength="1" id="green-1">
+      <input class="tile" type="text" maxlength="1" id="green-2">
+      <input class="tile" type="text" maxlength="1" id="green-3">
+      <input class="tile" type="text" maxlength="1" id="green-4">
+    </div>
+  </div>
 
-    <label for="yellow">Yellow letters (wrong spot):</label>
-    <input type="text" id="yellow" placeholder="L O" />
+  <div class="section">
+    <span class="label" style="color: orange;">🟨 Misplaced Letters</span>
+    <span class="desc">Letters in the word but in the wrong position (yellow tiles)</span>
+    <div class="tile-row">
+      <input class="tile" type="text" maxlength="1" id="yellow-0">
+      <input class="tile" type="text" maxlength="1" id="yellow-1">
+      <input class="tile" type="text" maxlength="1" id="yellow-2">
+      <input class="tile" type="text" maxlength="1" id="yellow-3">
+      <input class="tile" type="text" maxlength="1" id="yellow-4">
+    </div>
+  </div>
 
-    <label for="grey">Grey letters (not in word):</label>
-    <input type="text" id="grey" placeholder="S T M" />
+  <div class="section">
+    <span class="label" style="color: black;">⬛ Excluded Letters</span>
+    <span class="desc">Letters not in the word in any spot (dark grey tiles)</span>
+    <input class="excluded-box" type="text" id="excluded-letters" placeholder="e.g. q x z">
+  </div>
 
-    <button type="submit">Suggest Words</button>
-  </form>
+  <button class="search-button" id="submit-clue">Search</button>
 
-  <h2>Suggestions:</h2>
+  <h2>Suggestions</h2>
   <ul id="suggestions"></ul>
 
   <script src="script.js"></script>
