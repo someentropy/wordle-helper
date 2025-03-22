@@ -1,41 +1,44 @@
+const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
-// Setup paths
+const app = express();
+const PORT = 3000;
+
+// Serve frontend files from /public
+app.use(express.static('public'));
+
+// Paths to word list files
 const listFolder = path.join(__dirname, 'data', 'wordleOfficialWord5List');
 const sourcePath = path.join(listFolder, 'source.txt');
 const sortedPath = path.join(listFolder, 'sorted.json');
 
-// Get frequency of letters across word list
+// Util: Frequency map
 function getLetterFrequency(words) {
   const freq = {};
   for (const word of words) {
-    const uniqueLetters = new Set(word);
-    for (const letter of uniqueLetters) {
+    const letters = new Set(word);
+    for (const letter of letters) {
       freq[letter] = (freq[letter] || 0) + 1;
     }
   }
   return freq;
 }
 
-// Score a word based on letter frequency
+// Score each word
 function scoreWord(word, freqMap) {
-  const uniqueLetters = new Set(word);
-  let score = 0;
-  for (const letter of uniqueLetters) {
-    score += freqMap[letter] || 0;
-  }
-  return score;
+  const letters = new Set(word);
+  return Array.from(letters).reduce((sum, letter) => sum + (freqMap[letter] || 0), 0);
 }
 
-// Main loader
+// Load or build sorted list
 function loadSortedWordList() {
   if (fs.existsSync(sortedPath)) {
     console.log('✅ Loaded precomputed sorted list.');
     return JSON.parse(fs.readFileSync(sortedPath, 'utf8'));
   }
 
-  console.log('⚙️  Building sorted list from source...');
+  console.log('⚙️  Building sorted list...');
   const words = fs.readFileSync(sourcePath, 'utf8')
     .split('\n')
     .map(w => w.trim().toLowerCase())
@@ -47,10 +50,18 @@ function loadSortedWordList() {
     .sort((a, b) => b.score - a.score);
 
   fs.writeFileSync(sortedPath, JSON.stringify(sorted, null, 2), 'utf8');
-  console.log('✅ Saved sorted list to cache.');
   return sorted;
 }
 
-// Run it
+// Load once when server starts
 const sortedWords = loadSortedWordList();
-console.log('🔟 Top 10 suggestions:', sortedWords.slice(0, 10).map(w => w.word));
+
+// API endpoint
+app.get('/words', (req, res) => {
+  res.json(sortedWords);
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
