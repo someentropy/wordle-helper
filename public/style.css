@@ -27,3 +27,13 @@ body {
     padding: 0;
   }
   
+  .tile-input {
+    width: 40px;      /* smaller box width */
+    height: 40px;     /* smaller box height */
+    font-size: 18px;  /* smaller font */
+    text-align: center;
+    margin: 5px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+  }
+  

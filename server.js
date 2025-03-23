@@ -7,6 +7,7 @@ const PORT = 3000;
 
 // Serve frontend files from /public
 app.use(express.static('public'));
+app.use("/data", express.static("data"));
 
 // Paths to word list files
 const listFolder = path.join(__dirname, 'data', 'wordleOfficialWord5List');

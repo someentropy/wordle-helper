@@ -84,12 +84,41 @@
     <span class="label" style="color: orange;">🟨 Misplaced Letters</span>
     <span class="desc">Letters in the word but in the wrong position (yellow tiles)</span>
     <div class="tile-row">
-      <input class="tile" type="text" maxlength="1" id="yellow-0">
-      <input class="tile" type="text" maxlength="1" id="yellow-1">
-      <input class="tile" type="text" maxlength="1" id="yellow-2">
-      <input class="tile" type="text" maxlength="1" id="yellow-3">
-      <input class="tile" type="text" maxlength="1" id="yellow-4">
+      <input id="yellow-0" class="tile-input" />
+      <input id="yellow-1" class="tile-input" />
+      <input id="yellow-2" class="tile-input" />
+      <input id="yellow-3" class="tile-input" />
+      <input id="yellow-4" class="tile-input" />
     </div>
+    <div class="tile-row">
+      <input id="yellow-5" class="tile-input" />
+      <input id="yellow-6" class="tile-input" />
+      <input id="yellow-7" class="tile-input" />
+      <input id="yellow-8" class="tile-input" />
+      <input id="yellow-9" class="tile-input" />
+    </div>
+    <div class="tile-row">
+      <input id="yellow-0" class="tile-input" />
+      <input id="yellow-1" class="tile-input" />
+      <input id="yellow-2" class="tile-input" />
+      <input id="yellow-3" class="tile-input" />
+      <input id="yellow-4" class="tile-input" />
+    </div>
+    <div class="tile-row">
+      <input id="yellow-5" class="tile-input" />
+      <input id="yellow-6" class="tile-input" />
+      <input id="yellow-7" class="tile-input" />
+      <input id="yellow-8" class="tile-input" />
+      <input id="yellow-9" class="tile-input" />
+    </div>    
+    <div class="tile-row">
+      <input id="yellow-5" class="tile-input" />
+      <input id="yellow-6" class="tile-input" />
+      <input id="yellow-7" class="tile-input" />
+      <input id="yellow-8" class="tile-input" />
+      <input id="yellow-9" class="tile-input" />
+    </div>     
+    
   </div>
 
   <div class="section">
@@ -100,20 +129,16 @@
 
   <button class="search-button" id="submit-clue">Search</button>
 
-  <!-- Dropdown to select number of suggestions -->
-  <div class="section">
-    <label for="suggestion-limit" class="label">Number of Suggestions to Display:</label>
-    <select id="suggestion-limit" class="dropdown">
-      <!-- Options will be populated by JavaScript -->
-    </select>
-  </div>
 
-<!-- Suggestions Section -->
-<div id="suggestions-section" style="display: none;">
-  <div style="display: flex; align-items: center; gap: 1em; margin: 1em 0;"></div>
 
+
+  
   <h2>Intelligently Ranked Suggestions</h2>
-  <ul id="suggestions"></ul>
+  <div id="suggestions-section" style="display: none;">
+    <h2>Intelligently Ranked Suggestions</h2>
+    <ul id="suggestions"></ul>
+  </div>
+  
 </div>
 
 

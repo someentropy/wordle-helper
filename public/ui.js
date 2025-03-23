@@ -5,7 +5,7 @@ document.getElementById('submit-clue').addEventListener('click', async () => {
     );
   
     // Read yellow tile inputs
-    const yellows = [...Array(5).keys()].map(i =>
+    const yellows = [...Array(25).keys()].map(i =>
       document.getElementById(`yellow-${i}`).value.trim().toLowerCase() || null
     );
   
@@ -18,10 +18,12 @@ document.getElementById('submit-clue').addEventListener('click', async () => {
       .filter(Boolean);
   
     // Read suggestion limit
-    const suggestionLimit = parseInt(document.getElementById('suggestion-limit').value);
+    const suggestionLimit = 10;
+
   
     // Fetch full ranked word list
-    const res = await fetch('/words');
+    const res = await fetch("/data/wordleOfficialWord5List/sorted.json");
+
     const data = await res.json();
   
     // Filter words based on input clues
