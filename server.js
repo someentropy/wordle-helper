@@ -104,3 +104,12 @@ app.get('/words', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+
+app.get('/ads.txt', (req, res) => {
+    res.sendFile(__dirname + '/ads.txt');
+  });
+  
+  app.get('/manifest.json', (req, res) => {
+    res.sendFile(__dirname + '/manifest.json');
+  });
+  
