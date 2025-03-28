@@ -113,3 +113,7 @@ app.get('/ads.txt', (req, res) => {
     res.sendFile(__dirname + '/manifest.json');
   });
   
+  app.get('/og-image.png', (req, res) => {
+    res.sendFile(__dirname + '/og-image.png');
+  });
+  
