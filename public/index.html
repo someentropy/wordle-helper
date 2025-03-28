@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Wordle Helper</title>
+  <title>Wordle Helper – Smart Clue Solver</title>
+
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
@@ -162,11 +163,32 @@
 
 
   </style>
+<!-- SEO Meta Tags -->
+<meta name="description" content="A free and easy Wordle Helper that gives smart suggestions based on your clues.">
+<meta name="keywords" content="Wordle helper, Wordle solver, Wordle tool, Wordle hints, Wordle assistant">
+<meta name="author" content="Carbon">
+<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Open Graph (for sharing on social media) -->
+<meta property="og:title" content="Wordle Helper – Smart Clue Solver">
+<meta property="og:description" content="Get the best next guess for your Wordle puzzle using letter clues.">
+<meta property="og:image" content="https://wordle-carbon.fly.dev/og-image.png">
+<meta property="og:url" content="https://wordle-carbon.fly.dev/">
+<meta property="og:type" content="website">
+
+<!-- Favicon -->
+<link rel="icon" href="/favicon.ico">
+
 </head>
 <body>
 
   <h1>Wordle Helper</h1>
   <h4>(Official Wordle Words Only)</h4>
+  <p style="text-align: center;">
+    Give your Wordle clues and get smart word suggestions instantly. Powered by the official Wordle word list & Carbon.
+  </p>
+  
 
   <!-- Green letters -->
   <div>
@@ -246,8 +268,11 @@
     <input type="text" id="excluded-letters" class="excluded-box" placeholder="e.g. q x z">
   </div>
 
-  <!-- Search Button -->
-  <button class="search-button" id="submit-clue">Search</button>
+  <div style="display: flex; gap: 1em; margin-top: 1em;">
+    <button class="search-button" id="clear-clue" style="background-color: #eee; color: #333;">Clear</button>
+    <button class="search-button" id="submit-clue">Search</button>
+  </div>
+
 
   <!-- Suggestions Area -->
   <div id="suggestions-section" style="display: none;">
@@ -256,43 +281,94 @@
   </div>
 
   <!-- Script -->
-  <script src="ui.js"></script>
 
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const yellowRows = document.querySelectorAll('.yellow-clue');
-
-
-    yellowRows.forEach(row => {
-      const letterInput = row.querySelector('input.yellow-letter'); // ← more specific
-      const buttons = row.querySelectorAll('.position-toggle');
-
-      // Disable buttons initially
-      buttons.forEach(btn => btn.disabled = true);
-
-      // Monitor letter input
-      letterInput.addEventListener('input', () => {
-        const hasLetter = letterInput.value.trim() !== '';
-        buttons.forEach(btn => {
-          btn.disabled = !hasLetter;
-          if (!hasLetter) btn.classList.remove('active');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const yellowRows = document.querySelectorAll('.yellow-clue');
+      const greenInputs = Array.from({ length: 5 }, (_, i) => document.getElementById(`green-${i}`));
+      const excludedInput = document.getElementById('excluded-letters');
+      const suggestionsSection = document.getElementById('suggestions-section');
+      const suggestionsList = document.getElementById('suggestions');
+      const clearButton = document.getElementById('clear-clue');
+  
+      yellowRows.forEach(row => {
+        const letterInput = row.querySelector('input.yellow-letter');
+        const buttons = row.querySelectorAll('.position-toggle');
+  
+        const updateButtons = () => {
+          const hasLetter = !!letterInput.value.trim().match(/^[a-zA-Z]$/);
+          buttons.forEach(btn => {
+            btn.disabled = !hasLetter;
+            if (!hasLetter) btn.classList.remove('active');
+          });
+        };
+  
+        letterInput.addEventListener('input', () => {
+          letterInput.value = letterInput.value.toUpperCase();
+          updateButtons();
+        });
+  
+        updateButtons();
+  
+        buttons.forEach(button => {
+          button.addEventListener('click', () => {
+            if (!button.disabled) {
+              button.classList.toggle('active');
+            }
+          });
         });
       });
-
-      // Handle click on position buttons
-      buttons.forEach(button => {
-        button.addEventListener('click', () => {
-          if (!button.disabled) {
-            button.classList.toggle('active');
-          }
+  
+      // ✅ Remove yellow row if same letter is entered in green
+      greenInputs.forEach(greenInput => {
+        greenInput.addEventListener('input', () => {
+          const greenLetter = greenInput.value.trim().toUpperCase();
+          if (!greenLetter.match(/^[A-Z]$/)) return;
+  
+          yellowRows.forEach(row => {
+            const yellowInput = row.querySelector('input.yellow-letter');
+            const buttons = row.querySelectorAll('.position-toggle');
+  
+            if (yellowInput.value.toUpperCase() === greenLetter) {
+              yellowInput.value = '';
+              buttons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.disabled = true;
+              });
+            }
+          });
         });
+      });
+  
+      // ✅ Clear button handler
+      clearButton.addEventListener('click', () => {
+        // Clear green
+        greenInputs.forEach(input => input.value = '');
+  
+        // Clear yellow
+        yellowRows.forEach(row => {
+          const letterInput = row.querySelector('input.yellow-letter');
+          const buttons = row.querySelectorAll('.position-toggle');
+          letterInput.value = '';
+          buttons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.disabled = true;
+          });
+        });
+  
+        // Clear excluded
+        excludedInput.value = '';
+  
+        // Hide suggestions
+        suggestionsSection.style.display = 'none';
+        suggestionsList.innerHTML = '';
       });
     });
-  });
-</script>
-
-
+  </script>
+    
+  <script src="ui.js"></script>
+  
 
 </body>
 </html>

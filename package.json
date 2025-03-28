@@ -20,5 +20,8 @@
   "homepage": "https://github.com/someentropy/wordle-helper#readme",
   "dependencies": {
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.9"
   }
 }
