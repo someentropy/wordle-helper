@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wordle Helper</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,24 +13,12 @@
       padding: 2em;
     }
 
-    h1, h2 {
+    h1, h2, h4 {
       text-align: center;
     }
 
     .section {
       margin-bottom: 2em;
-    }
-
-    .label {
-      font-weight: bold;
-      margin-bottom: 0.5em;
-      display: block;
-    }
-
-    .desc {
-      font-size: 0.9em;
-      color: #555;
-      margin-bottom: 0.5em;
     }
 
     .tile-row {
@@ -39,12 +27,43 @@
     }
 
     .tile {
-      width: 48px;
-      height: 48px;
-      font-size: 1.5em;
+  width: 36px;
+  height: 36px;
+  font-size: 1.6em;
+  text-transform: uppercase;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  padding: 0;
+}
+
+
+
+    .yellow-clue {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      margin-bottom: 0.5em;
+    }
+
+    .yellow-letter {
+      width: 2em;
+      font-size: 1.2em;
       text-align: center;
-      border: 2px solid #ccc;
-      border-radius: 6px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5em;
+      font-size: 0.9em;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.2em;
     }
 
     .excluded-box {
@@ -54,61 +73,109 @@
     }
 
     .search-button {
-      display: block;
-      width: 100%;
-      padding: 1em;
-      font-size: 1.2em;
-      background-color: #f4c430;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-
-      .yellow-clue {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  margin-bottom: 0.5em;
-}
-
-.yellow-letter {
-  width: 2em;
+  display: block;
+  width: 100%;
+  padding: 1em;
   font-size: 1.2em;
-  text-align: center;
+  background-color: #f4c430;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  margin-top: 1.5em;
+}
+#suggestions li {
+  text-transform: uppercase;
+  font-size: 1.1em;
+  margin-bottom: 0.3em;
 }
 
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5em;
-  font-size: 0.9em;
-}
-
-.checkbox-group label {
-  display: flex;
+.yellow-grid-heading,
+.yellow-row {
+  display: grid;
+  grid-template-columns: 42px 12px repeat(5, 36px);
   align-items: center;
   gap: 0.2em;
+  justify-content: start; /* ← THIS fixes the left alignment */
+}
+
+
+.yellow-grid-heading div {
+  text-align: center;
+  font-size: 0.85em;
+  font-weight: normal;
+  color: #555;
+}
+
+
+
+.yellow-row {
+  display: grid;
+  grid-template-columns: 42px 12px repeat(5, 36px); /* Match the heading exactly */
+  align-items: center;
+  gap: 0.2em;
+  justify-content: start;
+}
+
+
+
+.yellow-letter {
+  font-size: 1.2em;
+  text-align: center;
+  text-transform: uppercase;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+
+.position-toggle {
+  width: 36px;
+  height: 36px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+  padding: 0;
+  line-height: 1;
+  color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.position-toggle.active {
+  background-color: #ffeaea;
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.position-toggle::before {
+  content: "";
+}
+
+.position-toggle.active::before {
+  content: "❌";
 }
 
 
 
 
-
-
-
-
-
-
-    }
   </style>
 </head>
 <body>
-  <h1>Wordle Helper</h1>
 
-  <div class="section">
-    <span class="label" style="color: green;">🟩 Correct Letters</span>
-    <span class="desc">Letters in the word and in the correct position (green tiles)</span>
-    <div class="tile-row">
+  <h1>Wordle Helper</h1>
+  <h4>(Official Wordle Words Only)</h4>
+
+  <!-- Green letters -->
+  <div>
+    <h3 style="color: green;"><span style="font-size: 1.2em;">🟩</span> Correct Letters</h3>
+    <p>Letters in the word and in the correct position (green tiles)</p>
+    <div>
       <input class="tile" type="text" maxlength="1" id="green-0">
       <input class="tile" type="text" maxlength="1" id="green-1">
       <input class="tile" type="text" maxlength="1" id="green-2">
@@ -117,89 +184,116 @@
     </div>
   </div>
 
-  <div class="section" id="yellow-section">
-    <span class="label" style="color: orange;">🟨 Misplaced Letters</span>
-    <span class="desc">Letters in the word but in the wrong position (yellow tiles)</span>
-  
-    <div class="yellow-clue">
-      <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">
-        <span class="checkbox-label">Not in positions:</span>
-        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
-      </div>
+  <!-- Yellow letters -->
+  <div>
+    <h3 style="color: orange;"><span style="font-size: 1.2em;">🟨</span> Misplaced Letters</h3>
+    <p>Letters in the word but in the wrong position (yellow tiles)</p>
+
+    <div class="yellow-grid-heading">
+      <div>Letter</div><div></div>
+      <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
     </div>
-    <div class="yellow-clue">
-      <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">
-        <span class="checkbox-label">Not in positions:</span>
-        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
-      </div>
+    
+    <div class="yellow-row">
+      <input class="tile yellow-letter" type="text" maxlength="1">
+      <div></div>
+      <button type="button" class="position-toggle" data-value="0"></button>
+      <button type="button" class="position-toggle" data-value="1"></button>
+      <button type="button" class="position-toggle" data-value="2"></button>
+      <button type="button" class="position-toggle" data-value="3"></button>
+      <button type="button" class="position-toggle" data-value="4"></button>
     </div>
-    <div class="yellow-clue">
-      <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">
-        <span class="checkbox-label">Not in positions:</span>
-        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
-      </div>
+    <div class="yellow-row">
+      <input class="tile yellow-letter" type="text" maxlength="1">
+      <div></div>
+      <button type="button" class="position-toggle" data-value="0"></button>
+      <button type="button" class="position-toggle" data-value="1"></button>
+      <button type="button" class="position-toggle" data-value="2"></button>
+      <button type="button" class="position-toggle" data-value="3"></button>
+      <button type="button" class="position-toggle" data-value="4"></button>
     </div>
-    <div class="yellow-clue">
-      <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">
-        <span class="checkbox-label">Not in positions:</span>
-        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
-      </div>
+    <div class="yellow-row">
+      <input class="tile yellow-letter" type="text" maxlength="1">
+      <div></div>
+      <button type="button" class="position-toggle" data-value="0"></button>
+      <button type="button" class="position-toggle" data-value="1"></button>
+      <button type="button" class="position-toggle" data-value="2"></button>
+      <button type="button" class="position-toggle" data-value="3"></button>
+      <button type="button" class="position-toggle" data-value="4"></button>
     </div>
-    <div class="yellow-clue">
-      <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">
-        <span class="checkbox-label">Not in positions:</span>
-        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
-      </div>
+    <div class="yellow-row">
+      <input class="tile yellow-letter" type="text" maxlength="1">
+      <div></div>
+      <button type="button" class="position-toggle" data-value="0"></button>
+      <button type="button" class="position-toggle" data-value="1"></button>
+      <button type="button" class="position-toggle" data-value="2"></button>
+      <button type="button" class="position-toggle" data-value="3"></button>
+      <button type="button" class="position-toggle" data-value="4"></button>
     </div>
-                                  
-  
-    <!-- Repeat the above block 4 more times (total of 5) -->
-</div>
-  <div class="section">
-    <span class="label" style="color: black;">⬛ Excluded Letters</span>
-    <span class="desc">Letters not in the word in any spot (dark grey tiles)</span>
-    <input class="excluded-box" type="text" id="excluded-letters" placeholder="e.g. q x z">
+    <div class="yellow-row">
+      <input class="tile yellow-letter" type="text" maxlength="1">
+      <div></div>
+      <button type="button" class="position-toggle" data-value="0"></button>
+      <button type="button" class="position-toggle" data-value="1"></button>
+      <button type="button" class="position-toggle" data-value="2"></button>
+      <button type="button" class="position-toggle" data-value="3"></button>
+      <button type="button" class="position-toggle" data-value="4"></button>
+    </div>
+                    
+
+  <!-- Excluded letters -->
+  <div>
+    <h3><span style="font-size: 1.2em;">⬛</span> Excluded Letters</h3>
+    <p>Letters not in the word in any spot (dark grey tiles)</p>
+    <input type="text" id="excluded-letters" class="excluded-box" placeholder="e.g. q x z">
   </div>
 
+  <!-- Search Button -->
   <button class="search-button" id="submit-clue">Search</button>
 
-
-
-
-  
-  <h2>Intelligently Ranked Suggestions</h2>
+  <!-- Suggestions Area -->
   <div id="suggestions-section" style="display: none;">
+    <h2 id="suggestions-heading">Intelligently Ranked Suggestions</h2>
     <ul id="suggestions"></ul>
   </div>
-  
 
-
-
+  <!-- Script -->
   <script src="ui.js"></script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const yellowRows = document.querySelectorAll('.yellow-row');
+
+    yellowRows.forEach(row => {
+      const letterInput = row.querySelector('input.yellow-letter'); // ← more specific
+      const buttons = row.querySelectorAll('.position-toggle');
+
+      // Disable buttons initially
+      buttons.forEach(btn => btn.disabled = true);
+
+      // Monitor letter input
+      letterInput.addEventListener('input', () => {
+        const hasLetter = letterInput.value.trim() !== '';
+        buttons.forEach(btn => {
+          btn.disabled = !hasLetter;
+          if (!hasLetter) btn.classList.remove('active');
+        });
+      });
+
+      // Handle click on position buttons
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          if (!button.disabled) {
+            button.classList.toggle('active');
+          }
+        });
+      });
+    });
+  });
+</script>
+
+
+
 </body>
 </html>
