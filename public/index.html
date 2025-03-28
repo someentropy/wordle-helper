@@ -39,12 +39,15 @@
 
 
 
-    .yellow-clue {
-      display: flex;
-      align-items: center;
-      gap: 1em;
-      margin-bottom: 0.5em;
-    }
+.yellow-clue {
+  display: grid;
+  grid-template-columns: 42px 36px repeat(5, 36px);
+  align-items: center;
+  gap: 0.2em;
+  justify-content: start;
+  margin-bottom: 0.5em;
+}
+
 
     .yellow-letter {
       width: 2em;
@@ -89,14 +92,14 @@
   margin-bottom: 0.3em;
 }
 
-.yellow-grid-heading,
-.yellow-row {
+.yellow-grid-heading {
   display: grid;
-  grid-template-columns: 42px 12px repeat(5, 36px);
+  grid-template-columns: 42px 36px repeat(5, 36px);
   align-items: center;
   gap: 0.2em;
-  justify-content: start; /* ← THIS fixes the left alignment */
+  justify-content: start;
 }
+
 
 
 .yellow-grid-heading div {
@@ -108,13 +111,6 @@
 
 
 
-.yellow-row {
-  display: grid;
-  grid-template-columns: 42px 12px repeat(5, 36px); /* Match the heading exactly */
-  align-items: center;
-  gap: 0.2em;
-  justify-content: start;
-}
 
 
 
@@ -164,6 +160,7 @@
 
 
 
+
   </style>
 </head>
 <body>
@@ -190,11 +187,12 @@
     <p>Letters in the word but in the wrong position (yellow tiles)</p>
 
     <div class="yellow-grid-heading">
-      <div>Letter</div><div></div>
+      <div>Letter</div><div style="width: 36px;"></div>
       <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
     </div>
     
-    <div class="yellow-row">
+    
+    <div class="yellow-clue">
       <input class="tile yellow-letter" type="text" maxlength="1">
       <div></div>
       <button type="button" class="position-toggle" data-value="0"></button>
@@ -203,7 +201,7 @@
       <button type="button" class="position-toggle" data-value="3"></button>
       <button type="button" class="position-toggle" data-value="4"></button>
     </div>
-    <div class="yellow-row">
+    <div class="yellow-clue">
       <input class="tile yellow-letter" type="text" maxlength="1">
       <div></div>
       <button type="button" class="position-toggle" data-value="0"></button>
@@ -212,7 +210,7 @@
       <button type="button" class="position-toggle" data-value="3"></button>
       <button type="button" class="position-toggle" data-value="4"></button>
     </div>
-    <div class="yellow-row">
+    <div class="yellow-clue">
       <input class="tile yellow-letter" type="text" maxlength="1">
       <div></div>
       <button type="button" class="position-toggle" data-value="0"></button>
@@ -221,7 +219,7 @@
       <button type="button" class="position-toggle" data-value="3"></button>
       <button type="button" class="position-toggle" data-value="4"></button>
     </div>
-    <div class="yellow-row">
+    <div class="yellow-clue">
       <input class="tile yellow-letter" type="text" maxlength="1">
       <div></div>
       <button type="button" class="position-toggle" data-value="0"></button>
@@ -230,7 +228,7 @@
       <button type="button" class="position-toggle" data-value="3"></button>
       <button type="button" class="position-toggle" data-value="4"></button>
     </div>
-    <div class="yellow-row">
+    <div class="yellow-clue">
       <input class="tile yellow-letter" type="text" maxlength="1">
       <div></div>
       <button type="button" class="position-toggle" data-value="0"></button>
@@ -263,7 +261,8 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const yellowRows = document.querySelectorAll('.yellow-row');
+    const yellowRows = document.querySelectorAll('.yellow-clue');
+
 
     yellowRows.forEach(row => {
       const letterInput = row.querySelector('input.yellow-letter'); // ← more specific

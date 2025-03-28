@@ -59,8 +59,46 @@ const sortedWords = loadSortedWordList();
 
 // API endpoint
 app.get('/words', (req, res) => {
-  res.json(sortedWords);
-});
+    try {
+      const correct = req.query.correct || '-----';
+      const misplaced = JSON.parse(req.query.misplaced || '{}');
+      const excluded = req.query.excluded ? req.query.excluded.split('') : [];
+  
+      console.log('🟩 correct:', correct);
+      console.log('🟨 misplaced:', misplaced);
+      console.log('⬛ excluded:', excluded);
+  
+      const filtered = sortedWords.filter(({ word }) => {
+        // ✅ Green letters
+        for (let i = 0; i < 5; i++) {
+          if (correct[i] !== '-' && word[i] !== correct[i]) return false;
+        }
+  
+        // 🟡 Yellow letters
+        for (const [letter, badPositions] of Object.entries(misplaced)) {
+          if (!word.includes(letter)) return false;
+          for (const pos of badPositions) {
+            const i = parseInt(pos); // fix: ensure number
+            if (word[i] === letter) return false;
+          }
+        }
+  
+        // ⬛ Excluded letters
+        for (const letter of excluded) {
+          if (word.includes(letter)) return false;
+        }
+  
+        return true;
+      });
+  
+      res.json(filtered);
+    } catch (err) {
+      console.error('💥 Error in /words:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
+  
 
 // Start server
 app.listen(PORT, () => {

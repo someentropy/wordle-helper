@@ -1,80 +1,67 @@
 document.getElementById('submit-clue').addEventListener('click', async () => {
+    // ✅ Green letters
     const greens = [];
     for (let i = 0; i < 5; i++) {
       const val = document.getElementById(`green-${i}`).value.toLowerCase();
-      greens[i] = val.match(/^[a-z]$/) ? val : null; // validate single letter
+      greens[i] = val.match(/^[a-z]$/) ? val : '-';
     }
+    const correct = greens.join('');
   
+    // 🟡 Yellow letters
     const yellows = [];
     document.querySelectorAll('.yellow-clue').forEach(clue => {
       const letterInput = clue.querySelector('.yellow-letter');
-      if (!letterInput) return;
       const letter = letterInput.value.toLowerCase();
+  
       if (!letter.match(/^[a-z]$/)) return;
   
-      const notPositions = Array.from(clue.querySelectorAll('.yellow-position'))
-        .filter(cb => cb.checked)
-        .map(cb => parseInt(cb.value)); // positions already 0-indexed
+      const notPositions = Array.from(clue.querySelectorAll('.position-toggle.active'))
+        .map(btn => parseInt(btn.dataset.value));
   
-      yellows.push({ letter, notPositions });
+      if (notPositions.length > 0) {
+        yellows.push({ letter, notPositions });
+      }
     });
   
+    const misplaced = {};
+    yellows.forEach(({ letter, notPositions }) => {
+      misplaced[letter] = notPositions;
+    });
+  
+    // ⬛ Excluded letters
     const excludedInput = document.getElementById('excluded-letters').value.toLowerCase();
     const excluded = excludedInput
-      .replace(/[^a-z]/g, '') // remove all non-letters
-      .split('')              // turn string into array of characters
-      .filter((c, i, arr) => arr.indexOf(c) === i); // optional: remove duplicates
-    
+      .replace(/[^a-z]/g, '')
+      .split('')
+      .filter((c, i, arr) => arr.indexOf(c) === i);
   
-    const res = await fetch('/words');
-    const wordList = await res.json();
+    // 🌐 Send to backend
+    const url = new URL('/words', window.location.origin);
+    url.searchParams.set('correct', correct);
+    url.searchParams.set('misplaced', JSON.stringify(misplaced));
+    url.searchParams.set('excluded', excluded.join(''));
   
-    const filtered = wordList.filter(({ word }) => {
-        word = word.toLowerCase(); // ensure lowercase for comparison
-      
-        // Green letters
-        for (let i = 0; i < 5; i++) {
-          if (greens[i] && word[i] !== greens[i]) return false;
-        }
-      
-        // Yellow letters
-        for (const yellow of yellows) {
-          if (!word.includes(yellow.letter)) return false;
-          for (const pos of yellow.notPositions) {
-            if (word[pos] === yellow.letter) return false;
-          }
-        }
-      
-        // Excluded letters
-        for (const letter of excluded) {
-          if (word.includes(letter)) return false;
-        }
-        console.log(word, {
-            greens,
-            yellows,
-            excluded,
-            matchedExcludedLetters: excluded.filter(l => word.includes(l))
-          });
-                
-        return true;
-      });
-      
+    try {
+      const res = await fetch(url);
+      const filtered = await res.json();
   
-      
+      // 🧠 Show results
+      const suggestionsEl = document.getElementById('suggestions');
+      suggestionsEl.innerHTML = '';
   
-    const suggestionsEl = document.getElementById('suggestions');
-    suggestionsEl.innerHTML = '';
+      if (filtered.length === 0) {
+        suggestionsEl.innerHTML = '<li>No matching words found.</li>';
+      } else {
+        filtered.slice(0, 20).forEach(({ word }) => {
+          const li = document.createElement('li');
+          li.textContent = word;
+          suggestionsEl.appendChild(li);
+        });
+      }
   
-    if (filtered.length === 0) {
-      suggestionsEl.innerHTML = '<li>No matching words found.</li>';
-    } else {
-      filtered.slice(0, 20).forEach(({ word, score }) => {
-        const li = document.createElement('li');
-        li.textContent = word;
-        suggestionsEl.appendChild(li);
-      });
+      document.getElementById('suggestions-section').style.display = 'block';
+    } catch (err) {
+      console.error('Error fetching filtered words:', err);
     }
-  
-    document.getElementById('suggestions-section').style.display = 'block';
   });
   
