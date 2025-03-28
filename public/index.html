@@ -62,6 +62,33 @@
       border: none;
       border-radius: 999px;
       cursor: pointer;
+
+
+
+.yellow-letter {
+  width: 2em;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.yellow-position {
+  margin-left: 0.5em;
+}
+
+.checkbox-group {
+  display: inline-block;
+  margin-left: 0.5em;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.yellow-clue {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 0.5em;
+}
+
     }
   </style>
 </head>
@@ -80,47 +107,63 @@
     </div>
   </div>
 
-  <div class="section">
+  <div class="section" id="yellow-section">
     <span class="label" style="color: orange;">🟨 Misplaced Letters</span>
     <span class="desc">Letters in the word but in the wrong position (yellow tiles)</span>
-    <div class="tile-row">
-      <input id="yellow-0" class="tile-input" />
-      <input id="yellow-1" class="tile-input" />
-      <input id="yellow-2" class="tile-input" />
-      <input id="yellow-3" class="tile-input" />
-      <input id="yellow-4" class="tile-input" />
+  
+    <div class="yellow-clue">
+      <input type="text" maxlength="1" class="yellow-letter" />
+      <div class="checkbox-group">Not in positions:
+        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
+      </span>
     </div>
-    <div class="tile-row">
-      <input id="yellow-5" class="tile-input" />
-      <input id="yellow-6" class="tile-input" />
-      <input id="yellow-7" class="tile-input" />
-      <input id="yellow-8" class="tile-input" />
-      <input id="yellow-9" class="tile-input" />
+    <div class="yellow-clue">
+      <input type="text" maxlength="1" class="yellow-letter" />
+      <div class="checkbox-group">Not in positions:
+        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
+      </span>
     </div>
-    <div class="tile-row">
-      <input id="yellow-0" class="tile-input" />
-      <input id="yellow-1" class="tile-input" />
-      <input id="yellow-2" class="tile-input" />
-      <input id="yellow-3" class="tile-input" />
-      <input id="yellow-4" class="tile-input" />
+    <div class="yellow-clue">
+      <input type="text" maxlength="1" class="yellow-letter" />
+      <div class="checkbox-group">Not in positions:
+        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
+      </span>
     </div>
-    <div class="tile-row">
-      <input id="yellow-5" class="tile-input" />
-      <input id="yellow-6" class="tile-input" />
-      <input id="yellow-7" class="tile-input" />
-      <input id="yellow-8" class="tile-input" />
-      <input id="yellow-9" class="tile-input" />
-    </div>    
-    <div class="tile-row">
-      <input id="yellow-5" class="tile-input" />
-      <input id="yellow-6" class="tile-input" />
-      <input id="yellow-7" class="tile-input" />
-      <input id="yellow-8" class="tile-input" />
-      <input id="yellow-9" class="tile-input" />
-    </div>     
-    
-  </div>
-
+    <div class="yellow-clue">
+      <input type="text" maxlength="1" class="yellow-letter" />
+      <div class="checkbox-group">Not in positions:
+        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
+      </span>
+    </div>
+    <div class="yellow-clue">
+      <input type="text" maxlength="1" class="yellow-letter" />
+      <div class="checkbox-group">Not in positions:
+        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
+      </span>
+    </div>               
+  
+    <!-- Repeat the above block 4 more times (total of 5) -->
+</div>
   <div class="section">
     <span class="label" style="color: black;">⬛ Excluded Letters</span>
     <span class="desc">Letters not in the word in any spot (dark grey tiles)</span>
@@ -135,11 +178,10 @@
   
   <h2>Intelligently Ranked Suggestions</h2>
   <div id="suggestions-section" style="display: none;">
-    <h2>Intelligently Ranked Suggestions</h2>
     <ul id="suggestions"></ul>
   </div>
   
-</div>
+
 
 
   <script src="ui.js"></script>

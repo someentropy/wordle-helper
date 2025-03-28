@@ -1,74 +1,80 @@
 document.getElementById('submit-clue').addEventListener('click', async () => {
-    // Read green tile inputs
-    const greens = [...Array(5).keys()].map(i =>
-      document.getElementById(`green-${i}`).value.trim().toLowerCase() || null
-    );
-  
-    // Read yellow tile inputs
-    const yellows = [...Array(25).keys()].map(i =>
-      document.getElementById(`yellow-${i}`).value.trim().toLowerCase() || null
-    );
-  
-    // Read excluded letters
-    const excluded = document
-      .getElementById('excluded-letters')
-      .value.trim()
-      .toLowerCase()
-      .split(/\s+/)
-      .filter(Boolean);
-  
-    // Read suggestion limit
-    const suggestionLimit = 10;
-
-  
-    // Fetch full ranked word list
-    const res = await fetch("/data/wordleOfficialWord5List/sorted.json");
-
-    const data = await res.json();
-  
-    // Filter words based on input clues
-    const filtered = data.filter(entry => {
-      const word = entry.word;
-  
-      // Check greens (correct letters)
-      for (let i = 0; i < 5; i++) {
-        if (greens[i] && word[i] !== greens[i]) return false;
-      }
-  
-      // Check yellows (wrong position but must exist)
-      for (let i = 0; i < 5; i++) {
-        if (yellows[i]) {
-          if (!word.includes(yellows[i]) || word[i] === yellows[i]) return false;
-        }
-      }
-  
-      // Check excluded (must not exist anywhere)
-      for (let x of excluded) {
-        if (word.includes(x)) return false;
-      }
-  
-      return true;
-    });
-  
-    // Get UI elements
-    const suggestionsSection = document.getElementById('suggestions-section');
-    const list = document.getElementById('suggestions');
-  
-    // No results? Hide the section
-    if (filtered.length === 0) {
-      suggestionsSection.style.display = 'none';
-      list.innerHTML = '';
-      return;
+    const greens = [];
+    for (let i = 0; i < 5; i++) {
+      const val = document.getElementById(`green-${i}`).value.toLowerCase();
+      greens[i] = val.match(/^[a-z]$/) ? val : null; // validate single letter
     }
   
-    // Show section and display top N suggestions
-    suggestionsSection.style.display = 'block';
-    list.innerHTML = '';
+    const yellows = [];
+    document.querySelectorAll('.yellow-clue').forEach(clue => {
+      const letterInput = clue.querySelector('.yellow-letter');
+      if (!letterInput) return;
+      const letter = letterInput.value.toLowerCase();
+      if (!letter.match(/^[a-z]$/)) return;
   
-    filtered.slice(0, suggestionLimit).forEach(entry => {
-      const li = document.createElement('li');
-      li.textContent = entry.word;
-      list.appendChild(li);
+      const notPositions = Array.from(clue.querySelectorAll('.yellow-position'))
+        .filter(cb => cb.checked)
+        .map(cb => parseInt(cb.value)); // positions already 0-indexed
+  
+      yellows.push({ letter, notPositions });
     });
+  
+    const excludedInput = document.getElementById('excluded-letters').value.toLowerCase();
+    const excluded = excludedInput
+      .replace(/[^a-z]/g, '') // remove all non-letters
+      .split('')              // turn string into array of characters
+      .filter((c, i, arr) => arr.indexOf(c) === i); // optional: remove duplicates
+    
+  
+    const res = await fetch('/words');
+    const wordList = await res.json();
+  
+    const filtered = wordList.filter(({ word }) => {
+        word = word.toLowerCase(); // ensure lowercase for comparison
+      
+        // Green letters
+        for (let i = 0; i < 5; i++) {
+          if (greens[i] && word[i] !== greens[i]) return false;
+        }
+      
+        // Yellow letters
+        for (const yellow of yellows) {
+          if (!word.includes(yellow.letter)) return false;
+          for (const pos of yellow.notPositions) {
+            if (word[pos] === yellow.letter) return false;
+          }
+        }
+      
+        // Excluded letters
+        for (const letter of excluded) {
+          if (word.includes(letter)) return false;
+        }
+        console.log(word, {
+            greens,
+            yellows,
+            excluded,
+            matchedExcludedLetters: excluded.filter(l => word.includes(l))
+          });
+                
+        return true;
+      });
+      
+  
+      
+  
+    const suggestionsEl = document.getElementById('suggestions');
+    suggestionsEl.innerHTML = '';
+  
+    if (filtered.length === 0) {
+      suggestionsEl.innerHTML = '<li>No matching words found.</li>';
+    } else {
+      filtered.slice(0, 20).forEach(({ word, score }) => {
+        const li = document.createElement('li');
+        li.textContent = word;
+        suggestionsEl.appendChild(li);
+      });
+    }
+  
+    document.getElementById('suggestions-section').style.display = 'block';
   });
   
