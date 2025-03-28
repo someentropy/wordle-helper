@@ -63,7 +63,12 @@
       border-radius: 999px;
       cursor: pointer;
 
-
+      .yellow-clue {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 0.5em;
+}
 
 .yellow-letter {
   width: 2em;
@@ -71,23 +76,28 @@
   text-align: center;
 }
 
-.yellow-position {
-  margin-left: 0.5em;
-}
-
 .checkbox-group {
-  display: inline-block;
-  margin-left: 0.5em;
-  font-size: 0.9em;
-  white-space: nowrap;
-}
-
-.yellow-clue {
   display: flex;
   align-items: center;
-  gap: 1em;
-  margin-bottom: 0.5em;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  font-size: 0.9em;
 }
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+
+
+
+
+
+
+
+
+
 
     }
   </style>
@@ -113,54 +123,60 @@
   
     <div class="yellow-clue">
       <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">Not in positions:
-        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
-      </span>
+      <div class="checkbox-group">
+        <span class="checkbox-label">Not in positions:</span>
+        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
+      </div>
     </div>
     <div class="yellow-clue">
       <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">Not in positions:
-        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
-      </span>
+      <div class="checkbox-group">
+        <span class="checkbox-label">Not in positions:</span>
+        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
+      </div>
     </div>
     <div class="yellow-clue">
       <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">Not in positions:
-        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
-      </span>
+      <div class="checkbox-group">
+        <span class="checkbox-label">Not in positions:</span>
+        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
+      </div>
     </div>
     <div class="yellow-clue">
       <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">Not in positions:
-        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
-      </span>
+      <div class="checkbox-group">
+        <span class="checkbox-label">Not in positions:</span>
+        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
+      </div>
     </div>
     <div class="yellow-clue">
       <input type="text" maxlength="1" class="yellow-letter" />
-      <div class="checkbox-group">Not in positions:
-        <label><input type="checkbox" value="0" class="yellow-position" /> 1</label>
-        <label><input type="checkbox" value="1" class="yellow-position" /> 2</label>
-        <label><input type="checkbox" value="2" class="yellow-position" /> 3</label>
-        <label><input type="checkbox" value="3" class="yellow-position" /> 4</label>
-        <label><input type="checkbox" value="4" class="yellow-position" /> 5</label>
-      </span>
-    </div>               
+      <div class="checkbox-group">
+        <span class="checkbox-label">Not in positions:</span>
+        <label><input type="checkbox" value="0" class="yellow-position" />1</label>
+        <label><input type="checkbox" value="1" class="yellow-position" />2</label>
+        <label><input type="checkbox" value="2" class="yellow-position" />3</label>
+        <label><input type="checkbox" value="3" class="yellow-position" />4</label>
+        <label><input type="checkbox" value="4" class="yellow-position" />5</label>
+      </div>
+    </div>
+                                  
   
     <!-- Repeat the above block 4 more times (total of 5) -->
 </div>
