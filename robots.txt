@@ -1,0 +1,5 @@
+# robots.txt for Wordle Carbon
+User-agent: *
+Allow: /
+
+Sitemap: https://wordle-carbon.fly.dev/sitemap.xml

@@ -117,3 +117,7 @@ app.get('/ads.txt', (req, res) => {
     res.sendFile(__dirname + '/og-image.png');
   });
   
+  app.get('/robots.txt', (req, res) => {
+    res.sendFile(path.join(__dirname, 'robots.txt'));
+  });
+  
