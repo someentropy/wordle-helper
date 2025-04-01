@@ -42,9 +42,17 @@ document.getElementById('submit-clue').addEventListener('click', async () => {
     url.searchParams.set('excluded', excluded.join(''));
   
     try {
+      // 🟨 Show coverage (assuming total list has 2315 words)
+
+
       const res = await fetch(url);
       const filtered = await res.json();
   
+      const totalWords = 2315;
+      const percent = Math.round((filtered.length / totalWords) * 100);
+      document.getElementById('coverage-percent').textContent = `${percent}%`;
+      document.getElementById('coverage-fill').style.width = `${percent}%`;
+            
       // 🧠 Show results
       const suggestionsEl = document.getElementById('suggestions');
       suggestionsEl.innerHTML = '';

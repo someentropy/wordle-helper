@@ -314,6 +314,13 @@
     <input type="text" id="excluded-letters" class="excluded-box" placeholder="e.g. q x z">
   </div>
 
+  <div id="coverage-bar" style="margin: 1em 0;">
+    <p style="font-size: 0.9em;">Coverage: <span id="coverage-percent">100%</span> of word list remaining</p>
+    <div style="background: #eee; height: 12px; border-radius: 6px;">
+      <div id="coverage-fill" style="height: 100%; width: 100%; background: #f4c430; border-radius: 6px;"></div>
+    </div>
+  </div>
+
   <div style="display: flex; gap: 1em; margin-top: 1em;">
     <button class="search-button" id="clear-clue" style="background-color: #eee; color: #333;">Clear</button>
     <button class="search-button" id="submit-clue">Search</button>
@@ -326,6 +333,8 @@
     <ul id="suggestions"></ul>
   </div>
 
+
+  
   <!-- Script -->
 
 
@@ -409,6 +418,11 @@
         // Hide suggestions
         suggestionsSection.style.display = 'none';
         suggestionsList.innerHTML = '';
+
+        // Reset coverage bar
+        document.getElementById('coverage-percent').textContent = `100%`;
+        document.getElementById('coverage-fill').style.width = `100%`;
+
       });
     });
   </script>
