@@ -37,3 +37,24 @@ body {
     border-radius: 6px;
   }
   
+  .site-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1em;
+    font-size: 1em;
+    margin-bottom: 2em;
+  }
+  
+  .site-nav a {
+    text-decoration: none;
+    color: #0077cc;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .site-nav a:hover {
+    text-decoration: underline;
+    color: #004d99;
+  }
+  

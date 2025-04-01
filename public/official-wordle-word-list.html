@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Wordle Word List</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 2em;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .word-entry {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.3em 0;
+      border-bottom: 1px solid #eee;
+    }
+    #search {
+      width: 100%;
+      padding: 0.5em;
+      font-size: 1em;
+      margin-bottom: 1em;
+    }
+    .score-explanation {
+      font-size: 0.95em;
+      background-color: #f8f8f8;
+      border: 1px solid #ddd;
+      padding: 1em;
+      border-radius: 6px;
+      margin-bottom: 1.5em;
+    }
+    nav {
+      text-align: center;
+      margin-bottom: 2em;
+    }
+    nav a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: #333;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="/">Home</a>
+    <a href="/how-to-use.html">How to Use the Solver</a>
+    <a href="/how-to-play.html">How to Play Wordle</a>
+    <a href="/official-wordle-word-list.html">Official Word List</a>
+  </nav>
+
+  <h1>Official Wordle Word List</h1>
+  <p>This list is sorted by a custom score that ranks each word based on the frequency and position of its letters across all official Wordle answers. Words with more common and useful letters appear first.</p>
+
+  <div class="score-explanation">
+    <strong>What does the score mean?</strong><br>
+    Each word is assigned a numeric score based on how common its letters are in the official Wordle answer list. Words with high-frequency letters (like E, A, R, O, T, etc.) score higher. The score helps prioritize words that are statistically more useful for narrowing down the answer.
+  </div>
+
+  <input type="text" id="search" placeholder="Search for a word...">
+
+  <div id="word-list">Loading words...</div>
+
+  <script>
+    const searchBox = document.getElementById('search');
+    const wordList = document.getElementById('word-list');
+    let wordData = [];
+
+    function displayWords(words) {
+      if (words.length === 0) {
+        wordList.innerHTML = '<p>No results found.</p>';
+        return;
+      }
+      wordList.innerHTML = words.map(entry => `
+        <div class="word-entry">
+          <span>${entry.word.toUpperCase()}</span>
+          <span>${entry.score}</span>
+        </div>
+      `).join('');
+    }
+
+    fetch('/data/wordleOfficialWord5List/sorted.json')
+      .then(res => res.json())
+      .then(data => {
+        wordData = data;
+        displayWords(wordData);
+      })
+      .catch(error => {
+        wordList.innerHTML = '<p style="color: red;">Failed to load word list.</p>';
+        console.error('Error loading sorted.json:', error);
+      });
+
+    searchBox.addEventListener('input', () => {
+      const query = searchBox.value.toLowerCase();
+      const filtered = wordData.filter(entry => entry.word.includes(query));
+      displayWords(filtered);
+    });
+  </script>
+</body>
+</html>

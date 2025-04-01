@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How to Play Wordle - Wordle Helper</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="/manifest.json">
+  <meta name="description" content="Learn how to play Wordle, the hit word puzzle game. Get tips and rules for beginners.">
+  <meta name="keywords" content="how to play Wordle, Wordle game rules, Wordle tips">
+  <meta name="author" content="Carbon">
+  <meta property="og:title" content="How to Play Wordle">
+  <meta property="og:description" content="Learn the rules and tips for playing Wordle.">
+  <meta property="og:url" content="https://wordle-carbon.fly.dev/how-to-play.html">
+  <meta property="og:type" content="article">
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 2em;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .section {
+      margin-bottom: 2em;
+    }
+    .tile-row {
+      display: flex;
+      gap: 0.5em;
+      justify-content: center;
+      margin: 1em 0;
+    }
+    .tile {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: white;
+      border-radius: 4px;
+    }
+    .green { background-color: #6aaa64; }
+    .yellow { background-color: #c9b458; }
+    .gray { background-color: #787c7e; }
+    nav {
+      text-align: center;
+      margin-bottom: 2em;
+    }
+    nav a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+    <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="/how-to-use.html">How to Use the Solver</a>
+        <a href="/how-to-play.html">How to Play Wordle</a>
+        <a href="/official-wordle-word-list.html">Official Word List</a>
+      </nav>
+      
+      
+      
+
+  <h1>How to Play Wordle</h1>
+
+  <div class="section">
+    <p><strong>Wordle</strong> is a simple but addictive word game where you try to guess a hidden 5-letter word in six attempts or less. After each guess, the game gives you feedback using colors:</p>
+
+    <div class="tile-row">
+      <div class="tile green">W</div>
+      <div class="tile gray">O</div>
+      <div class="tile yellow">R</div>
+      <div class="tile gray">D</div>
+      <div class="tile gray">S</div>
+    </div>
+
+    <ul>
+      <li><span class="tile green">W</span> – Correct letter, correct position (green)</li>
+      <li><span class="tile yellow">R</span> – Letter is in the word, but in the wrong position (yellow)</li>
+      <li><span class="tile gray">O</span>, <span class="tile gray">D</span>, <span class="tile gray">S</span> – Letters not in the word at all (gray)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Tips for Playing</h2>
+    <ul>
+      <li>Start with a word that uses common letters. Our top-ranked starting word is <em>ALERT</em>, based on letter frequency across all official Wordle answers.</li>
+      <li>Use the color feedback to narrow down possibilities.</li>
+      <li>Green letters should stay in place, yellow letters should be moved, and gray letters should be avoided.</li>
+      <li>Use a solver tool (like ours!) if you're stuck or want help.</li>
+    </ul>
+  </div>
+
+  <div class="section" style="text-align: center;">
+    <a href="/" class="search-button" style="text-decoration: none;">Try the Solver</a>
+  </div>
+</body>
+</html>
