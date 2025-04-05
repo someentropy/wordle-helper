@@ -5,9 +5,29 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
+// 🔁 Redirect middleware (HTTPS + www ➝ non-www)
+app.use((req, res, next) => {
+  const host = req.headers.host;
+  const proto = req.headers['x-forwarded-proto'];
+
+  // Redirect HTTP to HTTPS
+  if (proto && proto !== 'https') {
+    return res.redirect(301, `https://${host}${req.url}`);
+  }
+
+  // Redirect www to non-www
+  if (host && host.startsWith('www.')) {
+    const nonWwwHost = host.replace(/^www\./, '');
+    return res.redirect(301, `https://${nonWwwHost}${req.url}`);
+  }
+
+  next();
+});
+
 // Serve frontend files from /public
 app.use(express.static('public'));
 app.use("/data", express.static("data"));
+
 
 // Paths to word list files
 const listFolder = path.join(__dirname, 'data', 'wordleOfficialWord5List');
